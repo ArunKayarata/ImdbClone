@@ -10,6 +10,9 @@ function Banners() {
                 John Wick
             </div>
 
+
+            
+
     </div>
   )
 }
