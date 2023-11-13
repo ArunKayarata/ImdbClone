@@ -104,11 +104,11 @@ function WatchList() {
          className="border bg-gray-200 border-4 text-center p-1 m-2 rounded-1"
             value={searchstr}  onChange={(e)=>setsearchstr(e.target.value)}/>
       </div>
-      <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-        <table class='w-full border-collapse bg-white text-left text-sm text-gray-500'>
-          <thead class="bg-gray-50">
+      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+        <table classNameass='w-full border-collapse bg-white text-left text-sm text-gray-500'>
+          <thead className="bg-gray-50">
             <tr>
-              <th class="px-6 py-4 font-medium text-gray-900">Name</th>
+              <th className="px-6 py-4 font-medium text-gray-900">Name</th>
               <th>
                 <div className='flex'>
 
