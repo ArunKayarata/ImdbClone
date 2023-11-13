@@ -5,7 +5,8 @@ function WatchList() {
   const [favourites, setFavourites] = useState([]);
   const [genres, setgenres] = useState([]);
   const [currGenre, setcurrGenre] = useState("All Genres");
-  const [rating,setratings]=useState(0)
+  const [rating,setratings]=useState(0);
+  const [searchstr, setsearchstr]=useState("");
   let genreids = {
     28: "Action",
     12: "Adventure",
@@ -33,14 +34,17 @@ function WatchList() {
 
     moviesFromLocalStorage = JSON.parse(moviesFromLocalStorage);
 
-    setFavourites(moviesFromLocalStorage);
+      setFavourites(moviesFromLocalStorage);
+    
   }, []);
 
   useEffect(() => {
-    let temp = favourites.map((movie) => genreids[movie.genre_ids[0]]);
+   let  temp = favourites.map((movie) => genreids[movie.genre_ids[0]]);
     temp = new Set(temp);
     setgenres(["All Genres", ...temp]);
-  });
+  },[favourites]);
+
+
 
   let filteredArray = [];
 
@@ -70,8 +74,14 @@ function WatchList() {
       }
 
 
+   
+      filteredArray = filteredArray.filter((movie)=>{
+        return movie.title.toLowerCase().includes(searchstr.toLowerCase())
+      })
+
   return (
     <>
+
       <div className="mt-6 flex space-x-2 justify-center">
         {genres.map((genre) => {
           return (
@@ -88,6 +98,11 @@ function WatchList() {
           > {genre}</button>
           )
         })}
+      </div>
+      <div className=' text-center'>
+        <input type="text" placeholder='search for a movie'
+         className="border bg-gray-200 border-4 text-center p-1 m-2 rounded-1"
+            value={searchstr}  onChange={(e)=>setsearchstr(e.target.value)}/>
       </div>
       <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
         <table class='w-full border-collapse bg-white text-left text-sm text-gray-500'>
@@ -129,6 +144,7 @@ function WatchList() {
           </thead>
 
           <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+            
             {filteredArray.map((movie) => {
               return <tr class="hover:bg-gray-50">
                 <td class="flex items-center px-6 py-4 font-normal text-gray-900 space-x-2">

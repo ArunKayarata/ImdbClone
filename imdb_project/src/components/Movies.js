@@ -11,6 +11,14 @@ function Movies() {
   const [watchlist,setwatchlist] = useState([]);
   const [hovered ,sethovered] = useState('');
 
+  useEffect(() =>{
+    let moviesFromLocalStorage = localStorage.getItem("imdb");
+    moviesFromLocalStorage = JSON.parse(moviesFromLocalStorage);
+    if(moviesFromLocalStorage){
+
+      setwatchlist(moviesFromLocalStorage);
+    }
+  },[])
 
   function addtowatchlist(movie){
     const newwatchlist =[...watchlist,movie];
@@ -18,6 +26,7 @@ function Movies() {
     localStorage.setItem('imdb',JSON.stringify(newwatchlist));
 
   }
+ 
 
   function removewatchlist(m){
    const watched= watchlist.filter((ele)=>{
@@ -28,15 +37,24 @@ function Movies() {
     localStorage.setItem('imdb',JSON.stringify(watched));
   };
 
-  function showbutton(movie){
-    sethovered(movie);
+  function showbutton(m){
+    for(let i=0;i<watchlist.length;i++){
+      if(watchlist[i].id==m.id){
+        sethovered('');
+      }
+    }
+   sethovered(m);
+    
   }
   function hidebutton(){
     sethovered('')
   }
  
+ 
   // if any chnage in the component it renders and do api calls many times in order to avoid this we use useeffect hook which runs only one time
   useEffect(() => {
+   
+
     (function () {
       axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=f20683c6428539ff595ff1c9b1b11d73&page=${pagenum}`)
         .then((res) =>
